@@ -1,17 +1,20 @@
 <template>
   <div id="app">
+    <MainNavBar/>
     <div class="view"><router-view/></div>
     <MainTabBar/>
   </div>
 </template>
 
 <script>
+const MainNavBar = () => import('components/content/MainNavBar')
 const MainTabBar = () => import('components/content/MainTabBar')
 
 export default {
   name: 'App',
   components: {
-    MainTabBar
+    MainTabBar,
+    MainNavBar
   }
 }
 </script>
