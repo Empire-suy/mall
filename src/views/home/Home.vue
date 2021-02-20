@@ -1,16 +1,19 @@
 <template>
   <div class="home">
     <home-swiper :swipers="banners"/>
+    <home-recommend :recommends="recommends"/>
   </div>
 </template>
 
 <script>
 import {getHomeMultidata} from 'network/home'
 const HomeSwiper = () => import('./child-components/HomeSwiper')
+const HomeRecommend = () => import('./child-components/HomeRecommend')
 
 export default {
   components: {
-    HomeSwiper
+    HomeSwiper,
+    HomeRecommend
   },
   data() {
     return {

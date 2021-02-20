@@ -15,7 +15,7 @@ export default {
   props: {
     swipers: {
       type: Array,
-      default: []
+      default: () => []
     }
   },
   components: {
