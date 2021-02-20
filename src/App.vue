@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <MainNavBar/>
+    <MainNavBar class="app-nav-bar"/>
     <div class="view"><router-view/></div>
-    <MainTabBar/>
+    <MainTabBar class="app-tab-bar"/>
   </div>
 </template>
 
@@ -27,5 +27,27 @@ export default {
     flex-direction: column;
   }
 
-  .view { flex: 1; }
+  .app-nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    background-color: #fff;
+  }
+
+  .view {
+    flex: 1;
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  .app-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    background-color: #fff;
+  }
 </style>

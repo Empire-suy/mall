@@ -93,7 +93,7 @@ export default {
         })
 
         // 监听图片的是否加载完成 并设置容器的高度
-        const img = this.swiper.children[0].getElementsByTagName('img')[0]
+        const img = this.swiper.children.length ? this.swiper.children[0].getElementsByTagName('img')[0] : null
         if (img) {
           img.onload = () => {
             this.height = this.swiper.clientHeight + 'px'
