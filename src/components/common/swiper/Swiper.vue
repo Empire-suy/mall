@@ -1,6 +1,6 @@
 <template>
-  <div class="swiper-container" :style="{height: height}">
-    <div class="swiper" ref="swiper" :style="{width: swiperWidth}" @mouseenter="clearTimer" @mouseleave="setTimer">
+  <div class="swiper-container" ref="container" :style="{height: height}">
+    <div class="swiper clearfix" ref="swiper" :style="{width: swiperWidth}" @mouseenter="clearTimer" @mouseleave="setTimer">
       <slot></slot>
     </div>
   </div>
@@ -16,13 +16,15 @@ export default {
   },
   data() {
     return {
+      container: null,
       swiper: null,
       timer: null,
       moveTimer: null,
       currentIndex: 0,
-      height: '',
       touchStartX: 0,
-      touchEndX: 0
+      touchEndX: 0,
+      height: '',
+      swiperWidth: ''
     }
   },
   methods: {
@@ -57,68 +59,63 @@ export default {
       }, 3000)
     },
     clearTimer() {
-      console.log('清除定时器')
       clearTimeout(this.timer)
       clearTimeout(this.moveTimer)
     },
     getSwiperSize() {
       if (this.swiper) {
         this.swiper.children.forEach(item => {
-          item.style.width = this.swiper.clientWidth + 'px'
-        })
+          item.style.width = this.container.clientWidth + 'px'
 
-        // 监听图片的是否加载完成 并设置容器的高度
-        const img = this.swiper.children[0].getElementsByTagName('img')[0]
-        if (img) {
-          img.onload = () => {
-            this.height = this.swiper.clientHeight + 'px'
-          }
-        }
+          let img = item.getElementsByTagName('img')[0]
+        })
         
-        return this.swiper.children.length * this.swiper.clientWidth + 'px'
+        this.swiperWidth = this.swiper.children.length * this.swiper.clientWidth + 'px'
       } else {
-        return '100%'
+        this.swiperWidth = '100%'
       }
+    },
+    getChild() {
+      setTimeout(() => {
+        if (this.swiper.children.length) {
+          this.setSize()
+        } else {
+          this.getChild()
+        }
+      }, 30)
+    },
+    setSize() {
+      this.swiper.children.forEach(item => {
+        item.style.width = this.container.clientWidth + 'px'
+      })
+
+      this.swiperWidth = this.container.offsetWidth * this.swiper.children.length + 'px'
+
+      this.setTimer()
     }
+  },
+  created() {
+    this.getChild()
   },
   mounted() {
+    this.container = this.$refs.container
     this.swiper = this.$refs.swiper
-    this.setTimer()
-  },
-  computed: {
-    swiperWidth() {
-      if (this.swiper) {
-        this.swiper.children.forEach(item => {
-          item.style.width = this.swiper.clientWidth + 'px'
-        })
-
-        // 监听图片的是否加载完成 并设置容器的高度
-        const img = this.swiper.children.length ? this.swiper.children[0].getElementsByTagName('img')[0] : null
-        if (img) {
-          img.onload = () => {
-            this.height = this.swiper.clientHeight + 'px'
-          }
-        }
-        
-        return this.swiper.children.length * this.swiper.clientWidth + 'px'
-      } else {
-        return '100%'
-      }
-    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .swiper-container {
   overflow: hidden;
-  position: relative;
-  width: 100%;
 }
 
 .swiper {
   overflow: hidden;
+  position: relative;
   display: flex;
-  position: absolute;
+}
+
+.swiper > * {
+  float: left;
 }
 </style>

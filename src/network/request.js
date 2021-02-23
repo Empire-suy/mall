@@ -6,21 +6,20 @@ const request = function (config) {
   })
 
   instance.interceptors.request.use(config => {
-    console.log('request interceptor')
+    // console.log('request interceptor')
     return config
   }, err => {
-    console.log('request fail interceptor')
+    // console.log('request fail interceptor')
     return err
   })
 
   instance.interceptors.response.use(res => {
-    console.log(res.data)
     return {
       code: res.status,
       data: res.data.data
     }
   }, err => {
-    console.log('response error interceptor', err)
+    // console.log('response error interceptor', err)
     return err
   })
 
